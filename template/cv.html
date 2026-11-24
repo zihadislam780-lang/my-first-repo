@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% block title %}CV{% endblock %}
+
+{% block content %}
+{% if profile %}
+<section>
+    {% if profile.photo %}<img class="photo" src="{{ profile.photo.url }}" alt="{{ profile.name }}">{% endif %}
+    <h1>{{ profile.name }}</h1>
+    <p>{{ profile.email }}{% if profile.phone %} | {{ profile.phone }}{% endif %}</p>
+    <p>{{ profile.bio }}</p>
+</section>
+{% else %}
+<p>Profile ekhono add kora hoyni.</p>
+{% endif %}
+
+<section>
+    <h2>Education</h2>
+    {% for e in educations %}
+    <div class="card">
+        <strong>{{ e.degree }}</strong><br>
+        {{ e.institute }} ({{ e.year }})
+    </div>
+    {% empty %}<p>No data available.</p>{% endfor %}
+</section>
+
+<section>
+    <h2>Experience</h2>
+    {% for x in experiences %}
+    <div class="card">
+        <strong>{{ x.role }}</strong> at {{ x.company }}<br>
+        {{ x.start_date }} - {{ x.end_date|default:"Present" }}
+        <p>{{ x.description }}</p>
+    </div>
+    {% empty %}<p>No data available.</p>{% endfor %}
+</section>
+
+<section>
+    <h2>Skills</h2>
+    {% for s in skills %}
+    <div style="margin-bottom:10px;">
+    {{ s.name }} ({{ s.level }}%)
+    <progress value="{{ s.level }}" max="100" style="width:100%;"></progress>
+</div>
+    {% empty %}<p>No data available.</p>{% endfor %}
+</section>
+
+<section>
+    <h2>Projects</h2>
+    {% for p in projects %}
+    <div class="card">
+        <strong>{{ p.title }}</strong>
+        <p>{{ p.description }}</p>
+        {% if p.link %}<a href="{{ p.link }}" target="_blank">View project</a>{% endif %}
+    </div>
+    {% empty %}<p>No data available.</p>{% endfor %}
+</section>
+{% endblock %}

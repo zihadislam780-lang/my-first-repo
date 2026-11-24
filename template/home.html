@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+
+{% if user.is_authenticated %}
+
+    {% if profile %}
+    <section>
+        {% if profile.photo %}
+            <img class="photo" src="{{ profile.photo.url }}" alt="{{ profile.name }}">
+        {% endif %}
+        <h1>{{ profile.name }}</h1>
+        <p>{{ profile.email }}{% if profile.phone %} | {{ profile.phone }}{% endif %}</p>
+        <p>{{ profile.bio }}</p>
+    </section>
+
+    <section>
+        <h2>Skills</h2>
+        {% for s in skills %}
+        <div style="margin-bottom:10px;">
+            {{ s.name }} ({{ s.level }}%)
+            <progress value="{{ s.level }}" max="100" style="width:100%;"></progress>
+        </div>
+        {% empty %}
+            <p>Kono skill add kora hoyni.</p>
+        {% endfor %}
+    </section>
+
+    <p><a href="{% url 'cv' %}">View full CV</a></p>
+
+    {% else %}
+    <section>
+        <h1>Welcome, {{ user.username }}!</h1>
+        <p>Your portfolio has not been created yet.</p>
+        <p><a href="{% url 'dashboard' %}">Go to the dashboard and add your profile.</a></p>
+    </section>
+    {% endif %}
+
+{% else %}
+    <section>
+        <h1>Personal Portfolio</h1>
+        <p>Log in or register to create your own portfolio.</p>
+        <p>
+            <a href="{% url 'login' %}">Login</a> |
+            <a href="{% url 'registration' %}">Register</a>
+        </p>
+    </section>
+{% endif %}
+
+{% endblock %}

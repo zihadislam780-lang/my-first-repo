@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up</title>
+</head>
+
+<body>
+
+     <h1 style="text-align: center;">Registration Form</h1>
+
+    <center>
+        <form action="{% url 'registration' %}" method="post">    <!-- enctype="multipart/form-data" -->
+            {% csrf_token %}
+
+            <label for="username">Username: </label>
+            <input type="text" name="username" id="username">
+            <br><br>
+
+            <label for="email">Email: </label>
+            <input type="text" name="email" id="email">
+            <br><br>
+
+            <label for="password">Password: </label>
+            <input type="password" name="password" id="password">
+            <br><br>
+
+            <label for="confirm_password">Confirm Password: </label>
+            <input type="password" name="confirm_password" id="confirm_password">
+            <br><br>
+
+            <input type="submit" value="Signup">
+            
+        </form>
+
+        <a class="nav-link" href="{% url 'login' %}">Already have an Account ?</a>
+    </center>
+
+    {% if error %}
+    <p style="color:red;">{{ error }}</p>
+    {% endif %}
+
+</body>
+</html>

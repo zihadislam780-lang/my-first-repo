@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% block content %}
+<h2>My Dashboard</h2>
+
+<section>
+    <h3>Profile</h3>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="profile">
+        <p><input type="text" name="name" value="{{ profile.name }}" placeholder="Name"></p>
+        <p><textarea name="bio" placeholder="Bio">{{ profile.bio }}</textarea></p>
+        <p><input type="email" name="email" value="{{ profile.email }}" placeholder="Email"></p>
+        <p><input type="text" name="phone" value="{{ profile.phone }}" placeholder="Phone"></p>
+        <p><input type="file" name="photo"></p>
+        <button type="submit">Save Profile</button>
+    </form>
+</section>
+
+<section>
+    <h3>Add Skill</h3>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="skill">
+        <p><input type="text" name="name" placeholder="Skill name"></p>
+        <p><input type="number" name="level" min="0" max="100" placeholder="Level (0-100)"></p>
+        <button type="submit">Add Skill</button>
+    </form>
+</section>
+
+<section>
+    <h3>Add Experience</h3>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="experience">
+        <p><input type="text" name="company" placeholder="Company"></p>
+        <p><input type="text" name="role" placeholder="Role"></p>
+        <p>Start: <input type="date" name="start_date"></p>
+        <p>End: <input type="date" name="end_date"></p>
+        <p><textarea name="description" placeholder="Description"></textarea></p>
+        <button type="submit">Add Experience</button>
+    </form>
+</section>
+
+<section>
+    <h3>Add Education</h3>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="education">
+        <p><input type="text" name="institute" placeholder="Institute"></p>
+        <p><input type="text" name="degree" placeholder="Degree"></p>
+        <p><input type="text" name="year" placeholder="Year (e.g. 2022-2026)"></p>
+        <button type="submit">Add Education</button>
+    </form>
+</section>
+
+<section>
+    <h3>Add Project</h3>
+    <form method="post">
+        {% csrf_token %}
+        <input type="hidden" name="form_type" value="project">
+        <p><input type="text" name="title" placeholder="Title"></p>
+        <p><textarea name="description" placeholder="Description"></textarea></p>
+        <p><input type="url" name="link" placeholder="Link"></p>
+        <button type="submit">Add Project</button>
+    </form>
+</section>
+
+<hr>
+<h2>Manage My Data</h2>
+
+<section>
+    <h3>My Skills</h3>
+    {% for s in skills %}
+    <p>
+        {{ s.name }} ({{ s.level }}%)
+        <a href="{% url 'update_skill' s.id %}">Edit</a>
+        <a href="{% url 'delete_skill' s.id %}" onclick="return confirm('Delete?')">Delete</a>
+    </p>
+    {% empty %}<p>Kono skill nai.</p>{% endfor %}
+</section>
+
+<section>
+    <h3>My Experience</h3>
+    {% for x in experiences %}
+    <p>
+        {{ x.role }} at {{ x.company }}
+        <a href="{% url 'update_experience' x.id %}">Edit</a>
+        <a href="{% url 'delete_experience' x.id %}" onclick="return confirm('Delete?')">Delete</a>
+    </p>
+    {% empty %}<p>Kono experience nai.</p>{% endfor %}
+</section>
+
+<section>
+    <h3>My Education</h3>
+    {% for e in educations %}
+    <p>
+        {{ e.degree }} - {{ e.institute }}
+        <a href="{% url 'update_education' e.id %}">Edit</a>
+        <a href="{% url 'delete_education' e.id %}" onclick="return confirm('Delete?')">Delete</a>
+    </p>
+    {% empty %}<p>Kono education nai.</p>{% endfor %}
+</section>
+
+<section>
+    <h3>My Projects</h3>
+    {% for p in projects %}
+    <p>
+        {{ p.title }}
+        <a href="{% url 'update_project' p.id %}">Edit</a>
+        <a href="{% url 'delete_project' p.id %}" onclick="return confirm('Delete?')">Delete</a>
+    </p>
+    {% empty %}<p>Kono project nai.</p>{% endfor %}
+</section>
+
+{% endblock %}
